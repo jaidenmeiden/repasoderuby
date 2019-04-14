@@ -10,12 +10,21 @@ class App
     def Start
         @view = View::Ruby2dView.new(self)
         initial_state = Model::initial_state
-        Thread.new {init_timer(@view)}
+        timer_thread = Thread.new {init_timer}
         @view.start(@state)
+        #Indica esperar al que el timer se cierre 
+        #antes de cerrar la ventana al finalizar 
+        #la ejecución
+        timer_thread.join
     end
 
-    def init_timer(view)
+    def init_timer
         loop do         
+            if @state.gameover
+                puts "End Game"
+                puts "Score: #{@state.snake.positions.length}"
+                break
+            end
             #trigger movement   
             @state = Actions::move_snake(@state)
             @view.render(@state)

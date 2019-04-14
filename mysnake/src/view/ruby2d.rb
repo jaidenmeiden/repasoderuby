@@ -23,7 +23,10 @@ module View
             show
         end
         
-        def render(state) #Se llama constantemente          
+        def render(state) #Se llama constantemente      
+            extend Ruby2D::DSL #DLS Esta especializado en aplicaciones gráficas
+            close if state.gameover
+            
             render_food(state)
             render_snake(state)            
         end
