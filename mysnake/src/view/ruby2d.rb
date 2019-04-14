@@ -24,9 +24,10 @@ module View
         private
 
         def render_food(state)
+            @food.remove if @food
             extend Ruby2D::DSL #DLS Esta especializado en aplicaciones gráficas
             food = state.food
-            Square.new(
+            @food = Square.new(
                 x: food.col * @pixel_size,
                 y: food.row * @pixel_size,
                 size: @pixel_size,
@@ -35,9 +36,18 @@ module View
         end
 
         def render_snake(state)
+            # Opción 1
+            #if @snake_positions
+            #    @snake_positions.each do |pos|
+            #        pos.remove
+            #    end
+            #end   
+            # Opción 2
+            @snake_positions.each(&:remove) if @snake_positions
+
             extend Ruby2D::DSL #DLS Esta especializado en aplicaciones gráficas
             snake = state.snake
-            snake.positions.each do |pos|
+            @snake_positions = snake.positions.map do |pos|
                 Square.new(
                     x: pos.col * @pixel_size,
                     y: pos.row * @pixel_size,
