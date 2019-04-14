@@ -21,7 +21,7 @@ module Model
     class Grid < Struct.new(:rows, :cols)
     end
 
-    class State < Struct.new(:snake, :food, :grid, :next_direction, :gameover)
+    class State < Struct.new(:snake, :food, :grid, :curr_direction, :gameover)
     end
 
     def self.initial_state
